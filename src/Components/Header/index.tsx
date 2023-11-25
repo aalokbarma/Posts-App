@@ -14,7 +14,7 @@ const Header = (props: any) => {
   return (
     <View style = {Styles.header}>
         {
-            screenName == "Post" ? 
+            screenName != "Home" ? 
             <TouchableOpacity style = {Styles.backIconContainer} onPress={() => onBackIconPress()}>
                 <Image 
                     source={BackIcon}

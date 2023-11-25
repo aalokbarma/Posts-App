@@ -1,15 +1,17 @@
-import { View, Text, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, RefreshControl, TextInput, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Styles from './styles';
 import Header from '../../Components/Header';
 import PostsCard from '../../Components/PostCard';
 import axios from 'axios';
+import SearchIcon from '../../Assets/search.png';
 
 const HomeScreen = ({navigation}: any) => {
 
     const [postsData, setPostsData] = useState([]);
-    const [error, setError] = useState();
-    const [refreshing, setRefreshing ] = useState(false)
+    const [error, setError] = useState('');
+    const [refreshing, setRefreshing ] = useState(false);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         getPostsData()
@@ -30,6 +32,10 @@ const HomeScreen = ({navigation}: any) => {
           }
     }
 
+    const onCreatePostPress = () => {
+      navigation.navigate("PostsCreation")
+    }
+
   return (
     <View style = {Styles.homeScreen}>
         <Header 
@@ -38,9 +44,26 @@ const HomeScreen = ({navigation}: any) => {
             navigation = {navigation}
         />
         <View>
+
+        <View style = {Styles.searchbarContainer}>
+          <View style = {Styles.searchbar}>
+            <Image 
+              source = {SearchIcon}
+              style = {Styles.searchIcon}
+            />
+            <TextInput 
+              placeholder='Search Post...'
+              placeholderTextColor={'#666'}
+              value={search}
+              onChangeText={(text: string) => setSearch(text)}
+              style = {Styles.searchInput}
+            />
+          </View>
+        </View>
+
       {postsData ? (
         <FlatList
-        data={postsData}
+        data={postsData.filter((item: any) => item.title.toLowerCase().includes(search.toLowerCase())).reverse()}
         keyExtractor={(item: any) => item.id.toString()}
         renderItem={({ item }: any) => (
           <PostsCard item = {item} navigation = {navigation}/>
@@ -57,6 +80,9 @@ const HomeScreen = ({navigation}: any) => {
       )}
       {error && <Text>Error: {error}</Text>}
     </View>
+    <TouchableOpacity style = {Styles.createPostButton} onPress={()=> onCreatePostPress()}>
+        <Text style = {Styles.createText}>+</Text>
+    </TouchableOpacity>
     </View>
   )
 }
