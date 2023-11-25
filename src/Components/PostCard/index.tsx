@@ -4,6 +4,7 @@ import Styles from './styles';
 
 const PostsCard = (props: any) => {
     const {item, navigation} = props;
+    // function to navigate to selected post screen
     const onCardPress = () => {
         navigation.navigate("Post", {item: item})
     }

@@ -8,10 +8,12 @@ const PostsCreationScreen = ({navigation}: any) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
+  // When the post create successful the following function will trigger
   const onSuccessfulPostCreation = () => {
     navigation.navigate("Home")
   }
 
+  // When we submit the form, it will check some simple validations
   const onSubmitButtonPress = () => {
     if(title == ""){
       Alert.alert('Alert', 'Please enter a valid post title', [
@@ -23,6 +25,7 @@ const PostsCreationScreen = ({navigation}: any) => {
         {text: 'OK', onPress: () => {}},
       ])
     } 
+    // If no error present and proper data filled, then only this will trigger
     else{
       setTitle("");
       setBody("");

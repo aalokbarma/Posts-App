@@ -13,16 +13,19 @@ const HomeScreen = ({navigation}: any) => {
     const [refreshing, setRefreshing ] = useState(false);
     const [search, setSearch] = useState('');
 
+    // Trigger the api call on the mounting on the screen
     useEffect(() => {
         getPostsData()
     }, []);
 
+    // When swipe down the screen, it refreshes to the real time data
     const handleRefresh = () => {
         setRefreshing(true);
         getPostsData();
         setRefreshing(false);
       };
 
+    // Call the api to get the posts data
     const getPostsData = async() => {
         try {
             const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
@@ -32,6 +35,7 @@ const HomeScreen = ({navigation}: any) => {
           }
     }
 
+    // function to go to create post screen
     const onCreatePostPress = () => {
       navigation.navigate("PostsCreation")
     }
@@ -63,6 +67,7 @@ const HomeScreen = ({navigation}: any) => {
 
       {postsData ? (
         <FlatList
+        // data will filter here only as it is a small task, otherwise we should handle it in a separate function
         data={postsData.filter((item: any) => item.title.toLowerCase().includes(search.toLowerCase())).reverse()}
         keyExtractor={(item: any) => item.id.toString()}
         renderItem={({ item }: any) => (

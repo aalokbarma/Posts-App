@@ -28,6 +28,7 @@ const Styles = StyleSheet.create({
         letterSpacing: 0.5,
         color: 'teal',
         fontWeight: '500',
+        flex: 1
     },
     createPostButton: {
         position: 'absolute',
